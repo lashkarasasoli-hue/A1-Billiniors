@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ultra Pro Video System</title>
+    <!-- Optional: Link to Google Fonts -->
+<style>
+/* ===== ULTRA NEXT LEVEL VIDEO PLATFORM UI ===== */
+
+#ultra-video-system{
+    background:radial-gradient(circle at top,#0f172a,#020617 70%);
+    padding:25px;
+    border-radius:20px;
+    box-shadow:0 0 60px rgba(56,189,248,.3);
+}
+
+/* Glass Upload Panel */
+.upload-panel{
+    background:rgba(15,23,42,.75);
+    backdrop-filter:blur(18px);
+    border:1px solid rgba(56,189,248,.25);
+    box-shadow:0 0 40px rgba(56,189,248,.15);
+    position:relative;
+    overflow:hidden;
+}
+
+.upload-panel::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:linear-gradient(120deg,transparent,rgba(56,189,248,.15),transparent);
+    animation:scan 6s linear infinite;
+}
+
+@keyframes scan{
+    from{transform:translateX(-100%)}
+    to{transform:translateX(100%)}
+}
+
+/* Inputs */
+.source-box input,
+.video-meta input,
+.video-meta textarea,
+.video-meta select{
+    background:rgba(2,6,23,.8);
+    border:1px solid rgba(56,189,248,.4);
+    box-shadow:0 0 15px rgba(56,189,248,.2);
+    transition:.3s;
+}
+
+.source-box input:focus,
+.video-meta input:focus,
+.video-meta textarea:focus{
+    outline:none;
+    border-color:#38bdf8;
+    box-shadow:0 0 25px #38bdf8;
+}
+
+/* Neon Upload Button */
+#publishVideo{
+    background:linear-gradient(90deg,#22d3ee,#38bdf8,#6366f1);
+    background-size:300%;
+    animation:neon 5s linear infinite;
+    box-shadow:0 0 30px #38bdf8;
+    color:black;
+}
+
+@keyframes neon{
+    0%{background-position:0%}
+    100%{background-position:300%}
+}
+
+/* Player Panel Glass */
+.player-panel{
+    background:rgba(2,6,23,.8);
+    backdrop-filter:blur(15px);
+    border:1px solid rgba(99,102,241,.3);
+    box-shadow:0 0 50px rgba(99,102,241,.2);
+}
+
+/* Video Frame */
+#mainPlayer{
+    border-radius:16px;
+    box-shadow:0 0 40px rgba(0,0,0,.9);
+}
+
+/* Floating Controls */
+.overlay-controls button{
+    background:rgba(56,189,248,.15);
+    border:1px solid rgba(56,189,248,.4);
+    backdrop-filter:blur(8px);
+    box-shadow:0 0 20px rgba(56,189,248,.6);
+}
+
+/* Neon Advanced Buttons */
+.advanced-controls button{
+    background:rgba(15,23,42,.9);
+    border:1px solid rgba(99,102,241,.6);
+    box-shadow:0 0 20px rgba(99,102,241,.4);
+    color:#a5b4fc;
+}
+
+/* Stats Glow */
+.stats span{
+    padding:6px 12px;
+    background:rgba(56,189,248,.08);
+    border-radius:12px;
+    box-shadow:0 0 15px rgba(56,189,248,.3);
+}
+
+/* Social Buttons */
+.social-actions button{
+    background:linear-gradient(135deg,#1e293b,#020617);
+    border:1px solid rgba(56,189,248,.4);
+    box-shadow:0 0 20px rgba(56,189,248,.2);
+}
+
+/* Creator Panel */
+.creator-panel button{
+    text-transform:uppercase;
+    letter-spacing:1px;
+    box-shadow:0 0 30px rgba(0,0,0,.8);
+}
+
+/* Delete Danger Glow */
+#deleteVideo{
+    background:linear-gradient(90deg,#7f1d1d,#dc2626);
+    box-shadow:0 0 30px rgba(220,38,38,.8);
+}
+
+/* Mobile polish */
+@media(max-width:700px){
+    #ultra-video-system{
+        box-shadow:none;
+    }
+}
+</style>
+</head>
+<body>
+    <!-- ================= ULTRA PRO VIDEO SYSTEM ================= -->
+    <section id="ultra-video-system">
+
+        <!-- ===== Left: Upload Panel ===== -->
+        <div class="upload-panel">
+
+            <h2>Publish New Video</h2>
+
+            <!-- Video Source -->
+            <div class="source-box">
+                <label>Upload Video from Device</label>
+                <input type="file" id="videoFile" accept="video/*">
+
+                <label>Or Paste Video URL</label>
+                <input type="text" id="videoURL" placeholder="YouTube, TikTok, Facebook link">
+            </div>
+
+            <!-- Image / Thumbnail Upload -->
+            <div class="image-upload">
+                <label>Upload Thumbnail</label>
+                <input type="file" id="imageFile" accept="image/*">
+                <img id="imagePreview" src="" alt="Preview" style="display:none; max-width:100%; border-radius:10px; margin-top:10px;">
+            </div>
+
+            <!-- Logo Upload -->
+            <div class="logo-upload">
+                <label>Upload Logo / Watermark</label>
+                <input type="file" id="logoFile" accept="image/*">
+                <img id="logoPreview" src="" alt="Logo Preview" style="display:none; width:60px; position:absolute; top:10px; right:10px; opacity:0.8;">
+            </div>
+
+            <!-- Video Info -->
+            <div class="video-meta">
+                <input type="text" id="title" placeholder="Video Title">
+                <textarea id="description" placeholder="Describe your video"></textarea>
+                <select id="category">
+                    <option>Select Category</option>
+                    <option>Entertainment</option>
+                    <option>Education</option>
+                    <option>Sports</option>
+                    <option>News</option>
+                    <option>Technology</option>
+                </select>
+                <input type="text" id="tags" placeholder="Tags: #viral #shorts #baloch">
+                <div class="visibility">
+                    <label><input type="radio" name="visibility" checked> Public</label>
+                    <label><input type="radio" name="visibility"> Private</label>
+                </div>
+            </div>
+
+            <!-- Upload Control -->
+            <div class="upload-controls">
+                <button id="publishVideo">Upload & Publish</button>
+                <div class="progress-area">
+                    <div id="uploadPercent">0%</div>
+                    <progress id="uploadBar" value="0" max="100"></progress>
+                    <span id="uploadStatus">Waiting for upload...</span>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ===== Right: Video Preview & Player ===== -->
+        <div class="player-panel">
+
+            <!-- Video Player -->
+            <div class="player-wrapper" style="position:relative;">
+                <video id="mainPlayer" width="100%" controls></video>
+
+                <!-- Overlay Controls -->
+                <div class="overlay-controls">
+                    <button id="playBtn">▶</button>
+                    <button id="pauseBtn">⏸</button>
+                    <button id="muteBtn">🔇</button>
+                    <button id="fullBtn">⛶</button>
+                    <button id="loopBtn">🔁</button>
+                </div>
+
+                <!-- Advanced Controls -->
+                <div class="advanced-controls">
+                    <button id="zoomIn">Zoom +</button>
+                    <button id="zoomOut">Zoom -</button>
+                    <button id="speed">Speed</button>
+                    <button id="shot">Screenshot</button>
+                    <button id="download">Download</button>
+                </div>
+            </div>
+
+            <!-- Video Info -->
+            <div class="video-details">
+                <h3 id="videoTitleView">Video Title</h3>
+                <p id="videoDescView">Video description will appear here...</p>
+
+                <div class="stats">
+                    <span>👁 <b id="views">0</b></span>
+                    <span>👍 <b id="likes">0</b></span>
+                    <span>💬 <b id="comments">0</b></span>
+                </div>
+
+                <div class="social-actions">
+                    <button id="likeBtn">Like</button>
+                    <button id="shareBtn">Share</button>
+                    <button id="copyLink">Copy Link</button>
+                </div>
+            </div>
+
+            <!-- Creator Controls -->
+            <div class="creator-panel">
+                <button id="editVideo">Edit</button>
+                <button id="deleteVideo">Delete</button>
+            </div>
+
+        </div>
+
+    </section>
+    
+<!-- ================= ULTRA PRO VIDEO SYSTEM ================= -->
+
+<section id="ultra-video-system">
+
+    <!-- ===== Left: Upload Panel ===== -->
+    <div class="upload-panel">
+
+        <h2>Publish New Video</h2>
+
+        <!-- Video Source -->
+        <div class="source-box">
+            <label>Upload From Device</label>
+            <input type="file" id="videoFile" accept="video/*">
+
+            <label>Or Paste Video URL</label>
+            <input type="text" id="videoURL" placeholder="YouTube, TikTok, Facebook link">
+        </div>
+
+        <!-- Video Info -->
+        <div class="video-meta">
+
+            <input type="text" id="title" placeholder="Video Title">
+
+            <textarea id="description" placeholder="Describe your video"></textarea>
+
+            <select id="category">
+                <option>Select Category</option>
+                <option>Entertainment</option>
+                <option>Education</option>
+                <option>Sports</option>
+                <option>News</option>
+                <option>Technology</option>
+            </select>
+
+            <input type="text" id="tags" placeholder="Tags: #viral #shorts #baloch">
+
+            <div class="visibility">
+                <label><input type="radio" name="visibility" checked> Public</label>
+                <label><input type="radio" name="visibility"> Private</label>
+            </div>
+
+        </div>
+
+        <!-- Upload Control -->
+        <div class="upload-controls">
+            <button id="publishVideo">Upload & Publish</button>
+
+            <div class="progress-area">
+                <div id="uploadPercent">0%</div>
+                <progress id="uploadBar" value="0" max="100"></progress>
+                <span id="uploadStatus">Waiting for upload...</span>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- ===== Right: Video Preview & Player ===== -->
+    <div class="player-panel">
+
+        <!-- Video Player -->
+        <div class="player-wrapper">
+            <video id="mainPlayer"></video>
+
+            <!-- Overlay Controls -->
+            <div class="overlay-controls">
+                <button id="playBtn">▶</button>
+                <button id="pauseBtn">⏸</button>
+                <button id="muteBtn">🔇</button>
+                <button id="fullBtn">⛶</button>
+                <button id="loopBtn">🔁</button>
+            </div>
+
+            <!-- Advanced Controls -->
+            <div class="advanced-controls">
+                <button id="zoomIn">Zoom +</button>
+                <button id="zoomOut">Zoom -</button>
+                <button id="speed">Speed</button>
+                <button id="shot">Screenshot</button>
+                <button id="download">Download</button>
+            </div>
+        </div>
+
+        <!-- Video Info -->
+        <div class="video-details">
+            <h3 id="videoTitleView">Video Title</h3>
+            <p id="videoDescView">Video description will appear here...</p>
+
+            <div class="stats">
+                <span>👁 <b id="views">0</b></span>
+                <span>👍 <b id="likes">0</b></span>
+                <span>💬 <b id="comments">0</b></span>
+            </div>
+
+            <div class="social-actions">
+                <button id="likeBtn">Like</button>
+                <button id="shareBtn">Share</button>
+                <button id="copyLink">Copy Link</button>
+            </div>
+        </div>
+
+        <!-- Creator Controls -->
+        <div class="creator-panel">
+            <button id="editVideo">Edit</button>
+            <button id="deleteVideo">Delete</button>
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ================= END ULTRA PRO VIDEO SYSTEM ================= -->
+  
+<script>
+/* ===== ULTRA PRO VIDEO SYSTEM – FULL REAL-TIME PROFESSIONAL JS ===== */
+
+// ===== Global Elements =====
+const videoFile = document.getElementById("videoFile");
+const videoURL = document.getElementById("videoURL");
+const publishBtn = document.getElementById("publishVideo");
+const mainPlayer = document.getElementById("mainPlayer");
+const uploadBar = document.getElementById("uploadBar");
+const uploadPercent = document.getElementById("uploadPercent");
+const uploadStatus = document.getElementById("uploadStatus");
+const videoTitleView = document.getElementById("videoTitleView");
+const videoDescView = document.getElementById("videoDescView");
+const viewCount = document.getElementById("views");
+const likeBtn = document.getElementById("likeBtn");
+const likes = document.getElementById("likes");
+const deleteBtn = document.getElementById("deleteVideo");
+const speedBtn = document.getElementById("speed");
+const shotBtn = document.getElementById("shot");
+const downloadBtn = document.getElementById("download");
+const fullBtn = document.getElementById("fullBtn");
+const playBtn = document.getElementById("playBtn");
+const pauseBtn = document.getElementById("pauseBtn");
+const loopBtn = document.getElementById("loopBtn");
+
+// ===== State Variables =====
+let uploadedVideoURL = "";
+let views = 0;
+let likeCount = 0;
+let zoomLevel = 1;
+let loopMode = false;
+let currentSpeed = 1;
+
+// ===== Functions =====
+
+// Simulate Upload (Professional, real-time effect)
+function simulateUpload(fileOrURL) {
+    let percent = 0;
+    uploadStatus.textContent = "Uploading...";
+    const interval = setInterval(() => {
+        percent += Math.random() * 10; // Random speed
+        if (percent >= 100) percent = 100;
+        uploadBar.value = percent;
+        uploadPercent.textContent = Math.floor(percent) + "%";
+        if (percent >= 100) {
+            clearInterval(interval);
+            uploadStatus.textContent = "Upload Complete! Video Published.";
+            setupPlayer(fileOrURL);
+        }
+    }, 250);
+}
+
+// Setup Video Player
+function setupPlayer(fileOrURL) {
+    if (fileOrURL instanceof File) {
+        uploadedVideoURL = URL.createObjectURL(fileOrURL);
+    } else {
+        uploadedVideoURL = fileOrURL;
+    }
+
+    mainPlayer.src = uploadedVideoURL;
+    mainPlayer.load();
+    mainPlayer.play();
+
+    videoTitleView.textContent = document.getElementById("title")?.value || "Untitled Video";
+    videoDescView.textContent = document.getElementById("description")?.value || "No description";
+
+    views = 0;
+    viewCount.textContent = views;
+    likeCount = 0;
+    likes.textContent = likeCount;
+
+    zoomLevel = 1;
+    mainPlayer.style.transform = `scale(${zoomLevel})`;
+
+    loopMode = false;
+    mainPlayer.loop = false;
+    currentSpeed = 1;
+    mainPlayer.playbackRate = currentSpeed;
+}
+
+// ===== Event Listeners =====
+
+// Publish Video
+publishBtn.addEventListener("click", () => {
+    const file = videoFile.files[0];
+    const url = videoURL.value.trim();
+    if (file) simulateUpload(file);
+    else if (url) simulateUpload(url);
+    else alert("Select a video file or paste a video URL!");
+});
+
+// Play / Pause
+playBtn.addEventListener("click", () => mainPlayer.play());
+pauseBtn.addEventListener("click", () => mainPlayer.pause());
+
+// Loop Toggle
+loopBtn.addEventListener("click", () => {
+    loopMode = !loopMode;
+    mainPlayer.loop = loopMode;
+    loopBtn.style.background = loopMode ? "#38bdf8" : "rgba(56,189,248,.15)";
+});
+
+// Zoom In / Out
+zoomInBtn.addEventListener("click", () => {
+    zoomLevel += 0.1;
+    mainPlayer.style.transform = `scale(${zoomLevel})`;
+});
+zoomOutBtn.addEventListener("click", () => {
+    zoomLevel -= 0.1;
+    if (zoomLevel < 0.5) zoomLevel = 0.5;
+    mainPlayer.style.transform = `scale(${zoomLevel})`;
+});
+
+// Fullscreen
+fullBtn.addEventListener("click", () => {
+    if (mainPlayer.requestFullscreen) mainPlayer.requestFullscreen();
+    else if (mainPlayer.webkitRequestFullscreen) mainPlayer.webkitRequestFullscreen();
+});
+
+// Screenshot Capture
+shotBtn.addEventListener("click", () => {
+    const canvas = document.createElement("canvas");
+    canvas.width = mainPlayer.videoWidth;
+    canvas.height = mainPlayer.videoHeight;
+    canvas.getContext("2d").drawImage(mainPlayer, 0, 0, canvas.width, canvas.height);
+    const link = document.createElement("a");
+    link.href = canvas.toDataURL("image/png");
+    link.download = `${videoTitleView.textContent}_screenshot.png`;
+    link.click();
+});
+
+// Download Video
+downloadBtn.addEventListener("click", () => {
+    if (!uploadedVideoURL) return alert("No video to download!");
+    const link = document.createElement("a");
+    link.href = uploadedVideoURL;
+    link.download = `${videoTitleView.textContent}.mp4`;
+    link.click();
+});
+
+// Delete Video
+deleteBtn.addEventListener("click", () => {
+    if (confirm("Are you sure you want to delete this video?")) {
+        mainPlayer.src = "";
+        uploadedVideoURL = "";
+        videoTitleView.textContent = "Video Deleted";
+        videoDescView.textContent = "";
+        views = 0; viewCount.textContent = views;
+        likeCount = 0; likes.textContent = likeCount;
+        uploadBar.value = 0;
+        uploadPercent.textContent = "0%";
+        uploadStatus.textContent = "Waiting for upload...";
+    }
+});
+
+// Like Button
+likeBtn.addEventListener("click", () => {
+    likeCount++;
+    likes.textContent = likeCount;
+});
+
+// Speed Control
+speedBtn.addEventListener("click", () => {
+    const speeds = [0.25, 0.5, 1, 1.5, 2];
+    let idx = speeds.indexOf(currentSpeed);
+    idx = (idx + 1) % speeds.length;
+    currentSpeed = speeds[idx];
+    mainPlayer.playbackRate = currentSpeed;
+    speedBtn.textContent = currentSpeed + "x";
+});
+
+// Auto-increment views
+mainPlayer.addEventListener("play", () => {
+    const viewInterval = setInterval(() => {
+        if (mainPlayer.paused || mainPlayer.ended) clearInterval(viewInterval);
+        else { views++; viewCount.textContent = views; }
+    }, 2000);
+});
+<script>
+</body>
+</html>
